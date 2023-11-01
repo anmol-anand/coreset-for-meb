@@ -14,9 +14,9 @@ epsilon_list = [1 * i for i in range(1, 20)]
 coreset_size_list = []
 error_list = []
 
-for eps in epsilon_list:
-    in_P = np.random.rand(num_in_P, 2).astype(float)
+in_P = np.random.rand(num_in_P, 2).astype(float)
 
+for eps in epsilon_list:
     coreset_meb = get_coreset_meb(in_P, eps)
 
     # approximate error: difference in radii
