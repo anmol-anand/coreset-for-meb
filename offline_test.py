@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--num_samples', type=int, default=10000, help='Number of samples in the original set')
+parser.add_argument('--num_samples', type=int, default=500, help='Number of samples in the original set')
 args = parser.parse_args()
 
 num_in_P = args.num_samples
