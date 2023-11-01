@@ -2,17 +2,24 @@ from coreset_meb import get_coreset_meb
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+import argparse
 
 CORESET_INDEX = 0
 LEVEL_INDEX = 1
 
 
-# each entry is a tuple of size two: (set (/coreset), int (/level from bottom of the tree))
-coreset_meb_stack = []
+parser = argparse.ArgumentParser()
+parser.add_argument('--num_samples', type=int, default=10000, help='Number of samples in the original set')
+parser.add_argument('--epsilon', type=float, default=1e-2, help='Coreset will be (1 + epsilon) approximation over the MEB cost function')
+parser.add_argument('--buffer_size', type=int, default=500, help='The maximum size of the buffer')
+args = parser.parse_args()
 
-num_in_P = 100
-eps = 1e-3
-buffer_size = 5
+num_in_P = args.num_samples
+eps = args.epsilon
+buffer_size = args.buffer_size
+
+# each entry is a tuple of size two: (set (i.e. coreset), int ( i.e. level from bottom of the tree))
+coreset_meb_stack = []
 
 in_P = np.random.rand(num_in_P, 2).astype(float)
 
@@ -37,14 +44,6 @@ while len(coreset_meb_stack) > 0:
     final_coreset_meb = np.concatenate((final_coreset_meb, coreset_meb_stack[-1][CORESET_INDEX]), axis=0)
     coreset_meb_stack.pop()
     final_coreset_meb = get_coreset_meb(final_coreset_meb, gamma)
-
-print("Input points:")
-print(in_P)
-print("\n\n")
-
-print("Coreset for MEB cost function:")
-print(final_coreset_meb)
-print("\n\n")
 
 plt.scatter(in_P[:, 0], in_P[:, 1], color='blue', marker='o', label='Original Set of Points')
 plt.scatter(final_coreset_meb[:, 0], final_coreset_meb[:, 1], color='red', marker='x', label='Points in Coreset')
