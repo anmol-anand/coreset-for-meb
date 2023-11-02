@@ -9,12 +9,12 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--num_samples', type=int, default=500, help='Number of samples in the original set')
 args = parser.parse_args()
 
-num_in_P = args.num_samples
+num_samples = args.num_samples
 epsilon_list = [0.5 * i for i in range(1, 21)]
 coreset_size_list = []
 error_list = []
 
-in_P = np.random.rand(num_in_P, 2).astype(float)
+in_P = np.random.rand(num_samples, 2).astype(float)
 
 for eps in epsilon_list:
     coreset_meb = get_coreset_meb(in_P, eps)
@@ -29,7 +29,7 @@ for eps in epsilon_list:
 
     plt.xlabel('X')
     plt.ylabel('Y')
-    plt.title(f'original set size: {num_in_P} || epsilon: {eps} || theta net size: {math.ceil(2 * math.pi / math.sqrt(eps))} || coreset size: {len(coreset_meb)}')
+    plt.title(f'original set size: {num_samples} || epsilon: {eps} || theta net size: {math.ceil(2 * math.pi / math.sqrt(eps))} || coreset size: {len(coreset_meb)}')
     plt.grid(True)
     plt.savefig(f'results_offline/epsilon_{eps}.png')
     plt.clf()

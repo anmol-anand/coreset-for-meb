@@ -14,21 +14,21 @@ parser.add_argument('--num_samples', type=int, default=500, help='Number of samp
 parser.add_argument('--buffer_size', type=int, default=10, help='The maximum size of the buffer')
 args = parser.parse_args()
 
-num_in_P = args.num_samples
+num_samples = args.num_samples
 buffer_size = args.buffer_size
 epsilon_list = [i for i in range(1, 20)]
 coreset_size_list = []
 error_list = []
 
-in_P = np.random.rand(num_in_P, 2).astype(float)
+in_P = np.random.rand(num_samples, 2).astype(float)
 
 for eps in epsilon_list:
     # each entry is a tuple of size two: (set (i.e. coreset), int ( i.e. level from bottom of the tree))
     coreset_meb_stack = []
 
-    gamma = eps / math.log(num_in_P, 2)
+    gamma = eps / math.log(num_samples, 2)
 
-    for start_id in range(0, num_in_P, buffer_size):
+    for start_id in range(0, num_samples, buffer_size):
         batch_coreset_meb = get_coreset_meb(in_P[start_id : start_id + buffer_size], gamma)
         level_from_btm = 0
         while len(coreset_meb_stack) > 0 and coreset_meb_stack[-1][LEVEL_INDEX] == level_from_btm:
@@ -58,7 +58,7 @@ for eps in epsilon_list:
 
     plt.xlabel('X')
     plt.ylabel('Y')
-    plt.title(f'original set size: {num_in_P} || epsilon: {eps} || theta net size: {math.ceil(2 * math.pi / math.sqrt(eps))} || coreset size: {len(final_coreset_meb)}')
+    plt.title(f'original set size: {num_samples} || epsilon: {eps} || theta net size: {math.ceil(2 * math.pi / math.sqrt(eps))} || coreset size: {len(final_coreset_meb)}')
     plt.grid(True)
     plt.savefig(f'results_online/epsilon_{eps}.png')
     plt.clf()
