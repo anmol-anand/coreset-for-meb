@@ -10,7 +10,7 @@ parser.add_argument('--num_samples', type=int, default=500, help='Number of samp
 args = parser.parse_args()
 
 num_in_P = args.num_samples
-epsilon_list = [1 * i for i in range(1, 20)]
+epsilon_list = [0.5 * i for i in range(1, 21)]
 coreset_size_list = []
 error_list = []
 
@@ -31,8 +31,8 @@ for eps in epsilon_list:
     plt.ylabel('Y')
     plt.title(f'original set size: {num_in_P} || epsilon: {eps} || theta net size: {math.ceil(2 * math.pi / math.sqrt(eps))} || coreset size: {len(coreset_meb)}')
     plt.grid(True)
-    plt.savefig(f'results_offline/epsilon_{eps}')
-    plt.show()
+    plt.savefig(f'results_offline/epsilon_{eps}.png')
+    plt.clf()
 
 plt.scatter(epsilon_list, error_list, color='green', marker='o', label='squared difference radius')
 plt.plot(epsilon_list, error_list, color='green', linestyle='-', linewidth=1)
